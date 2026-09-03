@@ -1,8 +1,11 @@
 import 'package:expensiv/consts/themes/theme.dart';
 import 'package:expensiv/screens/splesh.dart';
+import 'package:expensiv/service/data.bese.dart';
 import 'package:flutter/material.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Databeseserivs.init('expenses');
   runApp(const MainApp());
 }
 
@@ -11,11 +14,11 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
-     title: 'Exspenses',
-     theme: Apptheme.light,
-     home: Splesh(),
-    );
+      title: 'Exspenses',
+      theme: Apptheme.light,
+      home: Splesh(),
+    );  
   }
 }

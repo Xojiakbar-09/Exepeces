@@ -2,7 +2,6 @@ import 'package:expensiv/consts/colors/color.dart';
 import 'package:expensiv/gen/assets.gen.dart';
 import 'package:expensiv/screens/history.dart';
 import 'package:expensiv/screens/home.dart';
-import 'package:expensiv/screens/homepage.dart';
 import 'package:expensiv/screens/settings.dart';
 import 'package:expensiv/screens/wallet.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +15,7 @@ class Mainscreen extends StatefulWidget {
 }
 
 class _MainscreenState extends State<Mainscreen> {
-  List page = [Home(), Wallet(), Homepage(), History(), Settings()];
+  List page = [Home(), Wallet(), History(), Settings()];
 
   int pageindex = 0;
 
@@ -44,12 +43,7 @@ class _MainscreenState extends State<Mainscreen> {
       activeIcon: SvgPicture.asset(Assets.icons.hamyon, width: 18, height: 20, color: Cols.black,), 
       label: '',
     ),
-     BottomNavigationBarItem(
-      icon: Icon(Icons.add,),
-      // ignore: deprecated_member_use
-      activeIcon: Icon(Icons.add,color: Cols.black,), 
-      label: '',
-    ),
+   
           BottomNavigationBarItem(
       icon: SvgPicture.asset(Assets.icons.qogoz, width: 18, height: 20),
       // ignore: deprecated_member_use

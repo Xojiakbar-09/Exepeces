@@ -13,7 +13,7 @@ class Apptheme {
   ),
     fontFamily: FontFamily.inter,
      scaffoldBackgroundColor: Cols.white,
-    colorScheme: ColorScheme.light(
+    colorScheme: ColorScheme.light(  
       primary: Cols.white
     )
   );

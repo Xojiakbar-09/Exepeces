@@ -1,8 +1,6 @@
 import 'package:expensiv/consts/colors/color.dart';
 import 'package:expensiv/gen/assets.gen.dart';
 import 'package:expensiv/provider/onboardinprovider.dart';
-import 'package:expensiv/screens/home.dart';
-import 'package:expensiv/screens/homepage.dart';
 import 'package:expensiv/screens/mainscreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
