@@ -32,7 +32,7 @@ class Databeseserivs {
     Map<String, dynamic> row = {
       'value': expenmodel.value,
       'income': expenmodel.income ? 1 : 0,
-      'type': expenmodel.type.name, 
+      'type': expenmodel.type.name,
       'note': expenmodel.note,
       'createdAt': (expenmodel.createdAt ?? DateTime.now()).toIso8601String(),
     };
@@ -41,11 +41,7 @@ class Databeseserivs {
   }
 
   static Future<int> deleteExpenseFromDb(int id) async {
-    return await db.delete(
-      'expenses',
-      where: 'id = ?',
-      whereArgs: [id],
-    );
+    return await db.delete('expenses', where: 'id = ?', whereArgs: [id]);
   }
 
   static Future<List<ExpenseModel>> getAllExpenses() async {
@@ -56,7 +52,7 @@ class Databeseserivs {
       final String typeString = row['type']?.toString() ?? '';
 
       return ExpenseModel(
-        id: row['id'] as int?, 
+        id: row['id'] as int?,
         note: row['note']?.toString(),
         value: (row['value'] as num?)?.toDouble() ?? 0.0,
         income: (row['income'] as int?) == 1,
@@ -69,5 +65,9 @@ class Databeseserivs {
             : null,
       );
     });
+  }
+
+  static Future<void> clearDB() async {
+    await db.delete('expenses');
   }
 }

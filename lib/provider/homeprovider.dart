@@ -4,6 +4,16 @@ import 'package:expensiv/service/data.bese.dart';
 import 'package:flutter/material.dart';
 
 class Homeprovider extends ChangeNotifier {
+  Future<void> cleareDB() async {
+    try {
+      await Databeseserivs.clearDB();
+      expenses.clear();
+      notifyListeners(); // Xatolik bo'lmasa, ishlaydi
+    } catch (e) {
+      print("Database tozalashda xatolik: $e");
+    }
+  }
+
   bool isloading = false;
 
   List<Map<String, dynamic>> category = [
@@ -106,12 +116,12 @@ class Homeprovider extends ChangeNotifier {
   double get totalBalance => totalIncome - totalOutcome;
 
   Future<void> deleteExpense(ExpenseModel expense) async {
-  try {
-    await Databeseserivs.deleteExpenseFromDb(expense.id!); 
-    expenses.remove(expense);
-    notifyListeners();
-  } catch (e) {
-    print('O\'chirishda xatolik: $e');
+    try {
+      await Databeseserivs.deleteExpenseFromDb(expense.id!);
+      expenses.remove(expense);
+      notifyListeners();
+    } catch (e) {
+      print('O\'chirishda xatolik: $e');
+    }
   }
-}
 }

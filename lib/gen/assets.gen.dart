@@ -111,10 +111,21 @@ class $AssetsImagesGen {
   List<AssetGenImage> get values => [logo];
 }
 
+class $AssetsLottieGen {
+  const $AssetsLottieGen();
+
+  /// File path: assets/lottie/box.json
+  String get box => 'assets/lottie/box.json';
+
+  /// List of all assets
+  List<String> get values => [box];
+}
+
 abstract final class Assets {
   static const $AssetsFontsGen fonts = $AssetsFontsGen();
   static const $AssetsIconsGen icons = $AssetsIconsGen();
   static const $AssetsImagesGen images = $AssetsImagesGen();
+  static const $AssetsLottieGen lottie = $AssetsLottieGen();
 }
 
 class AssetGenImage {
