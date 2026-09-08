@@ -1,4 +1,19 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Kamera va Gallery ruxsatlari -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    
+    <!-- Android 13 (API 33) va undan yuqori versiyalar uchun media ruxsatlari -->
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
+
+    <!-- Android 12 va undan past eski versiyalar uchun xotiradan o'qish -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" android:maxSdkVersion="32" />
+    
+    <!-- Agar olingan rasmlarni telefonga saqlaydigan bo'lsangiz (eski androidlar uchun) -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="32" />
+
+  
     <application
         android:label="expensiv"
         android:name="${applicationName}"

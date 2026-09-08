@@ -12,9 +12,11 @@ dependencies:
   flutter_gen: ^5.15.0
   flutter_svg: ^2.3.0
   google_fonts: ^8.2.1
+  image_picker: ^1.2.3
   intl: ^0.20.3
   lottie: ^3.5.1
   path: ^1.9.1
+  permission_handler: ^13.0.2
   provider: ^6.1.5+1
   sqflite: ^2.4.3
 

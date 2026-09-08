@@ -2,6 +2,7 @@ import 'package:expensiv/consts/colors/color.dart';
 import 'package:expensiv/gen/assets.gen.dart';
 import 'package:expensiv/provider/onboardinprovider.dart';
 import 'package:expensiv/screens/mainscreen.dart';
+import 'package:expensiv/service/permissoniservice.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
@@ -14,6 +15,8 @@ class Onboarding extends StatefulWidget {
 }
 
 class _OnboardingState extends State<Onboarding> {
+
+
   @override
   void dispose() {
     super.dispose();
@@ -100,7 +103,8 @@ class _OnboardingState extends State<Onboarding> {
                       SizedBox(height: 24),
                       ElevatedButton(
                         onPressed: () {
-                          if (context.read<OnbordProvider>().pageindex == context.read<OnbordProvider>().soz.length - 1) {
+                          if (context.read<OnbordProvider>().pageindex ==
+                              context.read<OnbordProvider>().soz.length - 1) {
                             Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(

@@ -4,6 +4,7 @@ import 'package:expensiv/utils/category.dart';
 import 'package:expensiv/utils/size.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'dart:io';
 
 class Customcont extends StatelessWidget {
   const Customcont({super.key, required this.expenseModel});
@@ -15,8 +16,8 @@ class Customcont extends StatelessWidget {
     return Material(
       color: Colors.white,
       child: Container(
-        width: context.width,
         height: context.height * 0.1,
+        width: context.width,
         padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
         child: Column(
           children: [
@@ -28,13 +29,43 @@ class Customcont extends StatelessWidget {
                   backgroundColor: Cols.lgrey,
                   child: SvgPicture.asset(expenseModel.type.name.checkcategory),
                 ),
+                expenseModel.image != null
+                    ? ClipRRect(
+                        borderRadius: BorderRadius.circular(8),
+                        child: InkWell(
+                          onTap: () {
+                            showDialog(
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                title: Image.file(
+                            File(expenseModel.image!),
+                            width:  200,
+                            height: 300,
+                            fit: BoxFit.cover,
+                          ),
+                              ),
+                            );
+                          },
+                          child: Image.file(
+                            File(expenseModel.image!),
+                            width: 48,
+                            height: 48,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      )
+                    : const SizedBox(),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       expenseModel.note ?? 'EMPTIY',
-                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400,
+                      ),
                     ),
+
                     Row(
                       children: [
                         Text(
@@ -53,7 +84,7 @@ class Customcont extends StatelessWidget {
                             fontWeight: FontWeight.w400,
                           ),
                         ),
-      
+
                         Text(
                           expenseModel.formattedCreatedAt,
                           style: TextStyle(
@@ -94,7 +125,7 @@ class Customcont extends StatelessWidget {
               ],
             ),
             SizedBox(height: 10),
-             Divider(height: 1, color: Cols.lightgrey),
+            Divider(height: 1, color: Cols.lightgrey),
           ],
         ),
       ),

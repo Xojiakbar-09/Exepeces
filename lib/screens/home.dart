@@ -3,6 +3,7 @@ import 'package:expensiv/gen/assets.gen.dart';
 import 'package:expensiv/models/expensmodels.dart';
 import 'package:expensiv/provider/homeprovider.dart';
 import 'package:expensiv/screens/homepage.dart';
+import 'package:expensiv/service/permissoniservice.dart';
 import 'package:expensiv/widget/customcont.dart';
 import 'package:expensiv/widget/customdrower.dart';
 import 'package:flutter/cupertino.dart';
@@ -20,6 +21,17 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+
+    @override
+  void initState() {
+   WidgetsBinding.instance.addPostFrameCallback((_) async {
+    await Permissoniservice.requestAllPermissions();
+  });
+    super.initState();
+  }
+
+  
+
   final GlobalKey<ScaffoldState> _globalKey = GlobalKey();
   Homeprovider get provider => context.watch<Homeprovider>();
   List<ExpenseModel> get expenses => provider.expenses;
@@ -303,8 +315,6 @@ class _HomeState extends State<Home> {
                             Customcont(expenseModel: item),
                             
                       );
-
-                      // );
                     },
                   ),
             SizedBox(height: 100),

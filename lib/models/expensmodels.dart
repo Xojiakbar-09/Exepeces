@@ -33,6 +33,7 @@ class ExpenseModel {
   ExpenseCategory type;
   String? note;
   DateTime? createdAt;
+  String? image;
 
   ExpenseModel({
     this.id, 
@@ -41,6 +42,7 @@ class ExpenseModel {
     required this.type,
     this.note,
     this.createdAt,
+    this.image
   });
 
   
@@ -59,6 +61,7 @@ class ExpenseModel {
         'value': value,
         'income': income ? 1 : 0,
         'type': type.name, 
+        'image': image,
         'note': note,
         'createdAt': (createdAt ?? DateTime.now()).toIso8601String(),
       };
@@ -66,6 +69,7 @@ class ExpenseModel {
   factory ExpenseModel.fromJson(Map<String, dynamic> json) {
     return ExpenseModel(
       id: json['id'] as int?, 
+      image: json['image']?.toString(),
       value: (json['value'] as num?)?.toDouble() ?? 0.0,
       income: json['income'] == 1 || json['income'] == true,
       type: ExpenseCategory.values.firstWhere(

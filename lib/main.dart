@@ -1,6 +1,8 @@
 import 'package:expensiv/consts/themes/theme.dart';
 import 'package:expensiv/provider/homeprovider.dart';
 import 'package:expensiv/screens/home.dart';
+import 'package:expensiv/screens/onboarding.dart';
+import 'package:expensiv/screens/splesh.dart';
 import 'package:expensiv/service/data.bese.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -28,7 +30,7 @@ class MainApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Exspenses',
       theme: Apptheme.light,
-      home: Home(),
+      home: Onboarding(),
     );  
   }
 }

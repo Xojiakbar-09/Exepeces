@@ -1,14 +1,71 @@
+import 'dart:io';
+
 import 'package:expensiv/gen/assets.gen.dart';
 import 'package:expensiv/models/expensmodels.dart';
 import 'package:expensiv/service/data.bese.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:path/path.dart' as p;
+import 'package:path_provider/path_provider.dart';
 
 class Homeprovider extends ChangeNotifier {
+  File? rasm;
+
+  Future<String?> _savePermanently(String temporaryPath) async {
+    try {
+      final appDir = await getApplicationDocumentsDirectory();
+      final fileName = p.basename(temporaryPath);
+      final savedImage = await File(temporaryPath).copy('${appDir.path}/$fileName');
+      return savedImage.path;
+    } catch (e) {
+      print('Rasmni doimiy xotiraga saqlashda xatolik: $e');
+      return null;
+    }
+  }
+
+  Future<void> pickimage({required Function onSuccess}) async {
+    try {
+      final picker = ImagePicker();
+      final result = await picker.pickImage(
+        source: ImageSource.gallery,
+        imageQuality: 100,
+      );
+
+      if (result != null) {
+        rasm = File(result.path);
+
+        onSuccess();
+        notifyListeners();
+      } else {
+        print('Xatolik: result null qaytdi (foydalanuvchi rasm tanlamadi)');
+      }
+    } catch (e) {
+      print('!!! CATCH GA TUSHDI (Xato): $e');
+    }
+  }
+
+  Future<void> pickimagecamera({required Function onSuccess}) async {
+    try {
+      final picker = ImagePicker();
+      final result = await picker.pickImage(
+        source: ImageSource.camera,
+        imageQuality: 100,
+      );
+      if (result != null) {
+        rasm = File(result.path);
+        onSuccess();
+        notifyListeners();
+      }
+    } catch (e) {
+      print('camera xato $e');
+    }
+  }
+
   Future<void> cleareDB() async {
     try {
       await Databeseserivs.clearDB();
       expenses.clear();
-      notifyListeners(); // Xatolik bo'lmasa, ishlaydi
+      notifyListeners();
     } catch (e) {
       print("Database tozalashda xatolik: $e");
     }
@@ -69,8 +126,14 @@ class Homeprovider extends ChangeNotifier {
     notifyListeners();
 
     try {
+      String? savedImagePath;
+      if (rasm != null) {
+        savedImagePath = await _savePermanently(rasm!.path);
+      }
+
       await Databeseserivs.addExpensestoDb(
         ExpenseModel(
+          image: savedImagePath,
           value: expense.value,
           note: expense.note,
           income: expense.income,
@@ -78,6 +141,9 @@ class Homeprovider extends ChangeNotifier {
           createdAt: expense.createdAt ?? DateTime.now(),
         ),
       );
+
+      rasm = null;
+      await getExpensesfromDb();
 
       isloading = false;
       notifyListeners();

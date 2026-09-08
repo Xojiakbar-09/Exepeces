@@ -21,7 +21,8 @@ class Databeseserivs {
         income INTEGER,
         createdAt TEXT,
         type TEXT,
-        note TEXT
+        note TEXT,
+        image TEXT
       )
     ''');
   }
@@ -33,6 +34,7 @@ class Databeseserivs {
       'value': expenmodel.value,
       'income': expenmodel.income ? 1 : 0,
       'type': expenmodel.type.name,
+      'image' : expenmodel.image,
       'note': expenmodel.note,
       'createdAt': (expenmodel.createdAt ?? DateTime.now()).toIso8601String(),
     };
@@ -53,6 +55,7 @@ class Databeseserivs {
 
       return ExpenseModel(
         id: row['id'] as int?,
+        image: row['image']?.toString(),
         note: row['note']?.toString(),
         value: (row['value'] as num?)?.toDouble() ?? 0.0,
         income: (row['income'] as int?) == 1,
