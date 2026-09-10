@@ -1,10 +1,12 @@
+import 'dart:io';
 import 'package:expensiv/consts/colors/color.dart';
 import 'package:expensiv/models/expensmodels.dart';
+import 'package:expensiv/screens/fullscreen.dart';
 import 'package:expensiv/utils/category.dart';
-import 'package:expensiv/utils/size.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'dart:io';
+import 'package:open_file/open_file.dart';
+import 'package:path/path.dart' as path;
 
 class Customcont extends StatelessWidget {
   const Customcont({super.key, required this.expenseModel});
@@ -16,115 +18,114 @@ class Customcont extends StatelessWidget {
     return Material(
       color: Colors.white,
       child: Container(
-        height: context.height * 0.1,
-        width: context.width,
         padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
             Row(
-              spacing: 16,
               children: [
                 CircleAvatar(
                   radius: 20,
                   backgroundColor: Cols.lgrey,
                   child: SvgPicture.asset(expenseModel.type.name.checkcategory),
                 ),
-                expenseModel.image != null
-                    ? ClipRRect(
-                        borderRadius: BorderRadius.circular(8),
-                        child: InkWell(
-                          onTap: () {
-                            showDialog(
-                              context: context,
-                              builder: (context) => AlertDialog(
-                                title: Image.file(
-                            File(expenseModel.image!),
-                            width:  200,
-                            height: 300,
-                            fit: BoxFit.cover,
-                          ),
-                              ),
-                            );
-                          },
-                          child: Image.file(
-                            File(expenseModel.image!),
-                            width: 48,
-                            height: 48,
-                            fit: BoxFit.cover,
-                          ),
+                 SizedBox(width: 10),
+                   expenseModel.image != null &&
+                      path
+                          .basename(expenseModel.image!)
+                          .toLowerCase()
+                          .endsWith('.jpg')
+                  ? ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  Fullscreen(rasm: File(expenseModel.image!)),
+                            ),
+                          );
+                        },
+                        child: Image.file(
+                          File(expenseModel.image!),
+                          width: 40,
+                          height: 40,
+                          fit: BoxFit.cover,
                         ),
-                      )
-                    : const SizedBox(),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      expenseModel.note ?? 'EMPTIY',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w400,
                       ),
-                    ),
-
-                    Row(
-                      children: [
-                        Text(
-                          expenseModel.type.name.toUpperCase(),
-                          style: TextStyle(
-                            color: Cols.lightgrey,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                          ),
+                    )
+                  : expenseModel.image != null
+                  ? InkWell(
+                      onTap: () => OpenFile.open(expenseModel.image!),
+                      child: Container(
+                        height: 40,
+                        width: 40,
+                        padding: EdgeInsets.all(6),
+                        decoration: BoxDecoration(
+                          color: Cols.lgrey,
+                          borderRadius: BorderRadius.circular(8),
                         ),
-                        Text(
-                          ' • ',
-                          style: TextStyle(
-                            color: Cols.lightgrey,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                          ),
+                        child: Icon(Icons.insert_drive_file, size: 30),
+                      ),
+                    )
+                  : SizedBox(),
+                    SizedBox(width: 10,) ,                      
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        expenseModel.note ?? 'EMPTY',
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w400,
                         ),
-
-                        Text(
-                          expenseModel.formattedCreatedAt,
-                          style: TextStyle(
-                            color: Cols.lightgrey,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
+                      ),
+                      Row(
+                        children: [
+                          Text(
+                            expenseModel.type.name.toUpperCase(),
+                            style: TextStyle(
+                              color: Cols.lightgrey,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400,
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                  ],
+                          Text(
+                            ' • ',
+                            style: TextStyle(
+                              color: Cols.lightgrey,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                          Text(
+                            expenseModel.formattedCreatedAt,
+                            style: TextStyle(
+                              color: Cols.lightgrey,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
-                Spacer(),
-                Row(
-                  children: [
-                    Text(
-                      expenseModel.income == true ? '+\$' : '-\$',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                        color: expenseModel.income == true
-                            ? Cols.green
-                            : Cols.black,
-                      ),
-                    ),
-                    Text(
-                      expenseModel.value.toStringAsFixed(2),
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                        color: expenseModel.income == true
-                            ? Cols.green
-                            : Cols.black,
-                      ),
-                    ),
-                  ],
+                Text(
+                  '${expenseModel.income == true ? '+\$' : '-\$'}${expenseModel.value.toStringAsFixed(2)}',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                    color: expenseModel.income == true ? Cols.green : Cols.black,
+                  ),
                 ),
               ],
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Divider(height: 1, color: Cols.lightgrey),
           ],
         ),

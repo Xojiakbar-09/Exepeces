@@ -3,19 +3,28 @@ import 'dart:io';
 import 'package:expensiv/gen/assets.gen.dart';
 import 'package:expensiv/models/expensmodels.dart';
 import 'package:expensiv/service/data.bese.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 
 class Homeprovider extends ChangeNotifier {
+
+
+   
+   
   File? rasm;
+
+
 
   Future<String?> _savePermanently(String temporaryPath) async {
     try {
       final appDir = await getApplicationDocumentsDirectory();
       final fileName = p.basename(temporaryPath);
-      final savedImage = await File(temporaryPath).copy('${appDir.path}/$fileName');
+      final savedImage = await File(
+        temporaryPath,
+      ).copy('${appDir.path}/$fileName');
       return savedImage.path;
     } catch (e) {
       print('Rasmni doimiy xotiraga saqlashda xatolik: $e');
@@ -188,6 +197,21 @@ class Homeprovider extends ChangeNotifier {
       notifyListeners();
     } catch (e) {
       print('O\'chirishda xatolik: $e');
+    }
+  }
+
+  Future<void> pickFileFromFolder({required Function onSuccess}) async {
+    try {
+      final result = await FilePicker.pickFile(
+        dialogTitle: 'Iltimos file tanlang',
+      );
+      if (result?.xFile != null) {
+        rasm = File(result!.xFile.path);
+        notifyListeners();
+      }
+      onSuccess();
+    } catch (e) {
+      print('file tanlashda xato');
     }
   }
 }
