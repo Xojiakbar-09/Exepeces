@@ -117,8 +117,11 @@ class $AssetsLottieGen {
   /// File path: assets/lottie/box.json
   String get box => 'assets/lottie/box.json';
 
+  /// File path: assets/lottie/thememode.json
+  String get thememode => 'assets/lottie/thememode.json';
+
   /// List of all assets
-  List<String> get values => [box];
+  List<String> get values => [box, thememode];
 }
 
 abstract final class Assets {

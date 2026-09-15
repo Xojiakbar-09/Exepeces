@@ -3,10 +3,34 @@ import 'package:expensiv/provider/homeprovider.dart';
 import 'package:expensiv/utils/size.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 
-class Customdrower extends StatelessWidget {
+class Customdrower extends StatefulWidget {
   const Customdrower({super.key});
+
+  @override
+  State<Customdrower> createState() => _CustomdrowerState();
+}
+
+class _CustomdrowerState extends State<Customdrower>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _animationController;
+
+  @override
+  void initState() {
+    _animationController = AnimationController(
+      vsync: this,
+      duration: Duration(seconds: 1),
+    );
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +40,7 @@ class Customdrower extends StatelessWidget {
       color: Cols.white,
       child: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10),
+          padding: const EdgeInsets.symmetric(horizontal: 1),
           child: Column(
             children: [
               SizedBox(height: 30),
@@ -43,10 +67,9 @@ class Customdrower extends StatelessWidget {
                           ),
                           CupertinoActionSheetAction(
                             onPressed: () {
-                               Navigator.pop(context);
+                              Navigator.pop(context);
                               Navigator.pop(context);
                               context.read<Homeprovider>().cleareDB();
-                             
                             },
                             child: Text(
                               'Ha',
@@ -63,6 +86,18 @@ class Customdrower extends StatelessWidget {
                   },
                   title: Text('Keshni tozalash'),
                   trailing: Icon(Icons.delete),
+                ),
+              ),
+              Card(
+                child: ListTile(
+                  onTap: () {
+                    _animationController.toggle();
+                  },
+                  title: Text("Themeni o'zgartirish"),
+                  trailing: LottieBuilder.asset(
+                    controller: _animationController,
+                    'assets/lottie/day.json',
+                  ),
                 ),
               ),
             ],

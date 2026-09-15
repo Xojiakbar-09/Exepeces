@@ -10,13 +10,14 @@ import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 
 class Homeprovider extends ChangeNotifier {
-
-
-   
-   
   File? rasm;
 
+  void clearImage() {
+    rasm = null;
+    notifyListeners();
+  }
 
+ 
 
   Future<String?> _savePermanently(String temporaryPath) async {
     try {

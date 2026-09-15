@@ -11,7 +11,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
+import 'package:path/path.dart' as path;
 import 'package:provider/provider.dart';
+import 'package:share_plus/share_plus.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -21,16 +23,13 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-
-    @override
+  @override
   void initState() {
-   WidgetsBinding.instance.addPostFrameCallback((_) async {
-    await Permissoniservice.requestAllPermissions();
-  });
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await Permissoniservice.requestAllPermissions();
+    });
     super.initState();
   }
-
-  
 
   final GlobalKey<ScaffoldState> _globalKey = GlobalKey();
   Homeprovider get provider => context.watch<Homeprovider>();
@@ -284,24 +283,23 @@ class _HomeState extends State<Home> {
                 ],
               ),
             ),
-
             expenses.isEmpty
                 ? Center(
-                  child: SizedBox(
-                    height: 200,
-                    width: 200,
-                    child: Lottie.asset(Assets.lottie.box),
-                  ),
-                )
+                    child: SizedBox(
+                      height: 200,
+                      width: 200,
+                      child: Lottie.asset(Assets.lottie.box),
+                    ),
+                  )
                 : ListView.builder(
                     reverse: true,
+
                     physics: NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
                     itemCount: expenses.length,
                     itemBuilder: (context, index) {
                       final item = expenses[index];
-                      return
-                      CupertinoContextMenu.builder(
+                      return CupertinoContextMenu.builder(
                         actions: [
                           CupertinoContextMenuAction(
                             onPressed: () {
@@ -310,10 +308,37 @@ class _HomeState extends State<Home> {
                             },
                             child: Text("O'chirish"),
                           ),
+                          CupertinoContextMenuAction(
+                            onPressed: () {
+                              Navigator.pop(context); 
+                              final imagepath = item.image;
+                              if (imagepath != null && imagepath.isNotEmpty) {
+                                // ignore: deprecated_member_use
+                                Share.shareXFiles(
+                                  [XFile(imagepath)],
+                                  text:
+                                      path.basename(imagepath),
+                                );
+                              } else {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text(
+                                      "Bu mavjud emas",
+                                    ),
+                                  ),
+                                );
+                              }
+                            },
+                            child: Text('Share'),
+                          ),
                         ],
-                        builder: (context, animation) =>
-                            Customcont(expenseModel: item),
-                            
+                        builder: (context, animation) => Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 10,
+                            vertical: 5,
+                          ),
+                          child: Customcont(expenseModel: item),
+                        ),
                       );
                     },
                   ),

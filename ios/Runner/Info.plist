@@ -2,13 +2,24 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSCameraUsageDescription</key>
-	<string>Ilovada rasmga tushirish uchun kameraga ruxsat kerak.</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Galereyadan rasm tanlab olish uchun fotoalbomga ruxsat kerak.</string>
-	<key>NSMicrophoneUsageDescription</key>
-	<string>Videoga olish jarayonida ovoz yozib olish uchun mikrofon ruxsati kerak.</string>
-	<key>CADisableMinimumFrameDurationOnPhone</key>
+    <key>LSApplicationQueriesSchemes</key>
+	<array>
+     <string>sms</string>
+  	 <string>tel</string>
+	</array>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>Ilova galereyadan rasm va fayllarni tanlash hamda o'qish uchun ruxsat so'raydi.</string>
+    
+    <key>NSAppleMusicUsageDescription</key>
+    <string>Ilova audio fayllarni ijro etish uchun ruxsat so'raydi.</string>
+    
+    <key>NSCameraUsageDescription</key>
+    <string>Ilovada rasmga tushirish uchun kameraga ruxsat kerak.</string>
+    
+    <key>NSMicrophoneUsageDescription</key>
+    <string>Videoga olish jarayonida ovoz yozib olish uchun mikrofon ruxsati kerak.</string>
+
+    <key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>

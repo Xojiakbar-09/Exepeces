@@ -21,7 +21,7 @@ class Fullscreen extends StatelessWidget {
         ),
         backgroundColor: Cols.black,
       ),
-      body: Center(child: Image.file(rasm, fit: BoxFit.cover)),
+      body: Center(child: Hero( tag: 'rasm1', child: Image.file(rasm, fit: BoxFit.cover))),
     );
   }
 }

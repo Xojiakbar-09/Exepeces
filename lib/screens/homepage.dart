@@ -26,6 +26,9 @@ class _HomepageState extends State<Homepage> {
   void dispose() {
     _valueController.dispose();
     _noteController.dispose();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+    context.read<Homeprovider>().clearImage();
+  });
     super.dispose();
   }
 
@@ -418,11 +421,14 @@ class _HomepageState extends State<Homepage> {
                             ),
                           );
                         },
-                        child: Image.file(
-                          File(provider.rasm!.path),
-                          width: 250,
-                          height: 200,
-                          fit: BoxFit.cover,
+                        child: Hero(
+                          tag: 'rasm1',
+                          child: Image.file(
+                            File(provider.rasm!.path),
+                            width: 250,
+                            height: 200,
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       ),  
                     )
