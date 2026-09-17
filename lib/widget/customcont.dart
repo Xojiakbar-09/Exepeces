@@ -3,6 +3,7 @@ import 'package:expensiv/consts/colors/color.dart';
 import 'package:expensiv/main.dart'; // main.dart dagi global audioHandler ni olish uchun
 import 'package:expensiv/models/expensmodels.dart';
 import 'package:expensiv/screens/fullscreen.dart';
+import 'package:expensiv/screens/video.dart';
 import 'package:expensiv/utils/category.dart';
 import 'package:expensiv/utils/size.dart';
 import 'package:flutter/material.dart';
@@ -57,6 +58,13 @@ class _CustomcontState extends State<Customcont> with TickerProviderStateMixin {
             .basename(widget.expenseModel.image!)
             .toLowerCase()
             .endsWith('.mp3');
+
+    final bool isVideo =
+        widget.expenseModel.image != null &&
+        path
+            .basename(widget.expenseModel.image!)
+            .toLowerCase()
+            .endsWith('.mp4');
 
     return Material(
       color: Colors.white,
@@ -312,58 +320,58 @@ class _CustomcontState extends State<Customcont> with TickerProviderStateMixin {
                       },
                     );
                   },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Cols.lgrey,
+                  child: ExpansionTile(
+                    backgroundColor: Cols.lgrey,
+                    collapsedBackgroundColor: Cols.lgrey,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    collapsedShape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30),
                     ),
-
-                    child: ListTile(
-                      trailing: IconButton(
-                        onPressed: () async {
-                          await Share.shareXFiles([
-                            XFile(widget.expenseModel.image!),
-                          ], text: path.basename(widget.expenseModel.image!));
-                        },
-                        icon: const Icon(Icons.share),
-                      ),
-                      subtitle: Slider.adaptive(
-                        value: currentPositionMs,
-                        min: 0.0,
-                        max: maxDurationMs,
-                        onChanged: (v) async {
-                          await audioHandler.seek(
-                            Duration(milliseconds: v.toInt()),
-                          );
-                        },
-                      ),
-                      title: Text(path.basename(widget.expenseModel.image!)),
-                      leading: IconButton.outlined(
-                        onPressed: () async {
-                          if (isThisFilePlaying) {
-                            _animationController.reverse();
-                            await audioHandler.pause();
-                          } else {
-                            _animationController.forward();
-
-                            if (!isThisFileCurrent) {
-                              await audioHandler.playFile(
-                                widget.expenseModel.image!,
-                                widget.expenseModel.note ?? "Audio",
-                                "Expense App",
-                                "Audio Album",
-                              );
+                    title: Text(widget.expenseModel.note ?? "EMPTY"),
+                    children: [
+                      ListTile(
+                       
+                        subtitle: Slider.adaptive(
+                          value: currentPositionMs,
+                          min: 0.0,
+                          max: maxDurationMs,
+                          onChanged: (v) async {
+                            await audioHandler.seek(
+                              Duration(milliseconds: v.toInt()),
+                            );
+                          },
+                        ),
+                        title: Text(path.basename(widget.expenseModel.image!)),
+                        // Play / Pause tugmasi
+                        leading: IconButton.outlined(
+                          onPressed: () async {
+                            if (isThisFilePlaying) {
+                              _animationController.reverse();
+                              await audioHandler.pause();
                             } else {
-                              await audioHandler.play();
+                              _animationController.forward();
+
+                              if (!isThisFileCurrent) {
+                                await audioHandler.playFile(
+                                  widget.expenseModel.image!,
+                                  widget.expenseModel.note ?? "Audio",
+                                  "Expense App",
+                                  "Audio Album",
+                                );
+                              } else {
+                                await audioHandler.play();
+                              }
                             }
-                          }
-                        },
-                        icon: AnimatedIcon(
-                          icon: AnimatedIcons.play_pause,
-                          progress: _animationController,
+                          },
+                          icon: AnimatedIcon(
+                            icon: AnimatedIcons.play_pause,
+                            progress: _animationController,
+                          ),
                         ),
                       ),
-                    ),
+                    ],
                   ),
                 );
               },
@@ -409,6 +417,30 @@ class _CustomcontState extends State<Customcont> with TickerProviderStateMixin {
                                     height: 40,
                                     fit: BoxFit.cover,
                                   ),
+                                ),
+                              ),
+                            )
+                          : widget.expenseModel.image != null && isVideo
+                          ? InkWell(
+                              onTap: () => Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => FullVideo(
+                                    fayl: File(widget.expenseModel.image!),
+                                  ),
+                                ),
+                              ),
+                              child: Hero(
+                                tag: 'video1',
+                                child: Container(
+                                  height: 40,
+                                  width: 40,
+                                  padding: const EdgeInsets.all(6),
+                                  decoration: BoxDecoration(
+                                    color: Cols.lgrey,
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  child: const Icon(Icons.play_circle, size: 30),
                                 ),
                               ),
                             )
