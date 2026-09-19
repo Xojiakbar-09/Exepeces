@@ -6,6 +6,7 @@ import 'package:expensiv/screens/homepage.dart';
 import 'package:expensiv/service/permissoniservice.dart';
 import 'package:expensiv/widget/customcont.dart';
 import 'package:expensiv/widget/customdrower.dart';
+import 'package:expensiv/widget/internet.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -53,7 +54,7 @@ class _HomeState extends State<Home> {
         centerTitle: true,
         title: Text(
           'Overview',
-          style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+          style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Cols.black),
         ),
         actionsPadding: EdgeInsets.only(right: 20),
         actions: [SvgPicture.asset(Assets.icons.profile)],
@@ -310,21 +311,17 @@ class _HomeState extends State<Home> {
                           ),
                           CupertinoContextMenuAction(
                             onPressed: () {
-                              Navigator.pop(context); 
+                              Navigator.pop(context);
                               final imagepath = item.image;
                               if (imagepath != null && imagepath.isNotEmpty) {
                                 // ignore: deprecated_member_use
-                                Share.shareXFiles(
-                                  [XFile(imagepath)],
-                                  text:
-                                      path.basename(imagepath),
-                                );
+                                Share.shareXFiles([
+                                  XFile(imagepath),
+                                ], text: path.basename(imagepath));
                               } else {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
-                                    content: Text(
-                                      "Bu mavjud emas",
-                                    ),
+                                    content: Text("Bu mavjud emas"),
                                   ),
                                 );
                               }

@@ -1,6 +1,8 @@
 import 'package:expensiv/gen/assets.gen.dart';
+import 'package:expensiv/screens/mainscreen.dart';
 import 'package:expensiv/screens/onboarding.dart';
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
 
 class Splesh extends StatefulWidget {
   const Splesh({super.key});
@@ -17,13 +19,11 @@ class _SpleshState extends State<Splesh> {
   }
 
   Future<void> loaData() async {
-    await Future.delayed(Duration(seconds: 5));
-
-   
+    await Future.delayed(Duration(seconds: 3));
       Navigator.pushReplacement(
         // ignore: use_build_context_synchronously
         context,
-        MaterialPageRoute(builder: (context) => Onboarding())
+        MaterialPageRoute(builder: (context) => GetStorage().read('ochish') == null || GetStorage().read('ochish') == false ?  Onboarding() : Mainscreen())
       );
     
   }

@@ -4,6 +4,7 @@ import 'package:expensiv/provider/onboardinprovider.dart';
 import 'package:expensiv/screens/mainscreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:provider/provider.dart';
 
 class Onboarding extends StatefulWidget {
@@ -14,7 +15,11 @@ class Onboarding extends StatefulWidget {
 }
 
 class _OnboardingState extends State<Onboarding> {
-
+  @override
+  void initState() {
+    super.initState();
+    GetStorage().write('ochish', true);
+  }
 
   @override
   void dispose() {
